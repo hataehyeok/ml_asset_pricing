@@ -29,37 +29,46 @@ def train_and_evaluate_model(train_loader, valid_loader, model, criterion, optim
 
     for epoch in range(epochs):
         model.train()
+        running_train_loss = 0.0
         for inputs, targets in train_loader:
             optimizer.zero_grad()
             outputs = model(inputs)
             loss = criterion(outputs, targets)
             loss.backward()
             optimizer.step()
+            running_train_loss += loss.item() * inputs.size(0)
+
+        epoch_train_loss = running_train_loss / len(train_loader.dataset)
 
         model.eval()
-        valid_loss = 0.0
+        running_valid_loss = 0.0
         with torch.no_grad():
             for inputs, targets in valid_loader:
                 outputs = model(inputs)
-                valid_loss += criterion(outputs, targets).item()
-        valid_loss /= len(valid_loader)
+                loss = criterion(outputs, targets)
+                running_valid_loss += loss.item() * inputs.size(0)
 
-        if valid_loss < best_loss:
-            best_loss = valid_loss
+        epoch_valid_loss = running_valid_loss / len(valid_loader.dataset)
+
+        print(f'Epoch {epoch+1}/{epochs}, Training Loss: {epoch_train_loss:.4f}, Validation Loss: {epoch_valid_loss:.4f}')
+
+        if epoch_valid_loss < best_loss:
+            best_loss = epoch_valid_loss
             patience_counter = 0
         else:
             patience_counter += 1
             if patience_counter >= patience:
+                print("Early stopping due to no improvement in validation loss.")
                 break
 
     return best_loss
+
 
 def hyperparameter_tuning(train_loader, valid_loader, input_dim, output_dim):
     param_grid = {
         'l1_penalty': np.logspace(-5, -3, num=3),
         'learning_rate': [0.001, 0.01],
-        # 'batch_size': [1000, 2000, 5000, 10000]
-        'batch_size': 2000
+        'batch_size': [2000]
     }
 
     best_params = None
@@ -79,8 +88,8 @@ def hyperparameter_tuning(train_loader, valid_loader, input_dim, output_dim):
     return best_params, best_loss
 
 def load_preprocessed_data():
-    input_data = pd.read_csv('../data/preprocessed/input.csv')
-    target_data = pd.read_csv('../data/preprocessed/target.csv')
+    input_data = pd.read_csv('data/preprocess/input.csv')
+    target_data = pd.read_csv('data/preprocess/target.csv')
     
     input_data['date'] = pd.to_datetime(input_data['date'])
     target_data['date'] = pd.to_datetime(target_data['date'])
@@ -105,7 +114,10 @@ def test_model(test_loader, model, criterion):
     predictions = np.concatenate(predictions, axis=0)
     actuals = np.concatenate(actuals, axis=0)
 
+    print(f'Test Loss: {test_loss:.4f}')
+
     return test_loss, predictions, actuals
+
 
 def calculate_r2_oos(predictions, actuals):
     numerator = np.sum((actuals - predictions) ** 2)
@@ -114,15 +126,13 @@ def calculate_r2_oos(predictions, actuals):
     return r2_oos
 
 def main():
-    # input_data, target_data = load_preprocessed_data()
-    input_data, target_data = get_data()
-    import pdb; pdb.set_trace()
+    input_data, target_data = load_preprocessed_data()
     print(input_data.shape, target_data.shape)
     firm_info, _ = load_info()
 
     train_loader, valid_loader, test_loader, test_index = create_dataloaders(
-        input_data, target_data, 
-        train_date='1988-01-01', valid_date='2000-01-01', test_date='2006-01-01', batch_size=2000
+        input_data, target_data, firm_info,
+        train_date='1993-12-01', valid_date='2010-01-01', test_date='2018-01-01', batch_size=1000
     )
 
     input_dim = input_data.shape[1] - 2
@@ -137,14 +147,14 @@ def main():
     optimizer = optim.Adam(model.parameters(), lr=best_params['learning_rate'], weight_decay=best_params['l1_penalty'])
     criterion = nn.MSELoss()
 
+    print("Starting model training...")
     train_and_evaluate_model(train_loader, valid_loader, model, criterion, optimizer, epochs=100, patience=5)
 
+    print("Evaluating on test data...")
     test_loss, predictions, actuals = test_model(test_loader, model, criterion)
 
-    print(f'Test Loss: {test_loss}')
-
     r2_oos = calculate_r2_oos(predictions, actuals)
-    print(f'R²_oos: {r2_oos}')
+    print(f'R²_oos: {r2_oos:.4f}')
 
 if __name__ == "__main__":
     main()

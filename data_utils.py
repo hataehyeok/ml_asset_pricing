@@ -285,15 +285,32 @@ def get_data(predict=False, horizon = 1):
 
 #################################################################################################################################
 
-class CB_Dataset(Dataset):
-    def __init__(self, input, target, info):
+# class CB_Dataset(Dataset):
+#     def __init__(self, input, target, info):
 
-        # Get column names for each dataset
-        self.concept_col = list(info[info['Cat.Data'] == 'Analyst']['Acronym'].values)
+#         # Get column names for each dataset
+#         self.concept_col = list(info[info['Cat.Data'] == 'Analyst']['Acronym'].values)
+
+#         # Define dataset in numpy array form
+#         self.input_data = input.drop(self.concept_col + ['permno', 'date'], axis=1).values
+#         self.concept_data = input[self.concept_col].values
+#         self.output_data = target.drop(['permno', 'date'], axis=1).values
+
+#     def __len__(self):
+#         return len(self.input_data)
+    
+#     def __getitem__(self, idx):
+#         x = torch.from_numpy(self.input_data[idx]).type(torch.float)
+#         c = torch.from_numpy(self.concept_data[idx]).type(torch.float)
+#         y = torch.from_numpy(self.output_data[idx]).type(torch.float)
+
+#         return x, c, y
+
+class CB_Dataset(Dataset):
+    def __init__(self, input, target):
 
         # Define dataset in numpy array form
-        self.input_data = input.drop(self.concept_col + ['permno', 'date'], axis=1).values
-        self.concept_data = input[self.concept_col].values
+        self.input_data = input.drop(['permno', 'date'], axis=1).values
         self.output_data = target.drop(['permno', 'date'], axis=1).values
 
     def __len__(self):
@@ -301,10 +318,9 @@ class CB_Dataset(Dataset):
     
     def __getitem__(self, idx):
         x = torch.from_numpy(self.input_data[idx]).type(torch.float)
-        c = torch.from_numpy(self.concept_data[idx]).type(torch.float)
         y = torch.from_numpy(self.output_data[idx]).type(torch.float)
 
-        return x, c, y
+        return x, y
 
 
 def create_dataloaders(input, target, info, train_date, valid_date, test_date, batch_size):
@@ -339,9 +355,9 @@ def create_dataloaders(input, target, info, train_date, valid_date, test_date, b
         ]
 
     # Create datasets for train, validation, and test sets
-    train_dataset = CB_Dataset(train_input, train_target, info)
-    valid_dataset = CB_Dataset(valid_input, valid_target, info)
-    test_dataset  = CB_Dataset(test_input , test_target , info)
+    train_dataset = CB_Dataset(train_input, train_target)
+    valid_dataset = CB_Dataset(valid_input, valid_target)
+    test_dataset  = CB_Dataset(test_input , test_target)
 
     g = torch.Generator()
     g.manual_seed(0)

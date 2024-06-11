@@ -182,6 +182,9 @@ def get_data(predict=False, horizon = 1):
     firm_predictors = fill_firm_na(firm_predictors, firm_info, method='time')
 
     print('Missing value filled...')
+    print('###################################################################################################')
+    print( firm_predictors.shape)
+    print('###################################################################################################')
 
     ###########################################################################################################
     # 4. Drop inappropriate firms
@@ -194,12 +197,20 @@ def get_data(predict=False, horizon = 1):
     print('From ', before, ' firms, total ', after, ' selected')
     print('# total samples: ', len(firm_predictors))
 
+    print('###################################################################################################')
+    print( firm_predictors.shape)
+    print('###################################################################################################')
+
     ###########################################################################################################
     # 5. Fill missing values without last observations
 
     firm_predictors = fill_firm_na(firm_predictors, firm_info, method='cross')
 
     print('Missing value filled...')
+
+    print('###################################################################################################')
+    print( firm_predictors.shape)
+    print('###################################################################################################')
 
     ###########################################################################################################
     # 6. Create target variable and normalize input
