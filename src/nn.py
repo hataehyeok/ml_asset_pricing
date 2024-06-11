@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from torch.utils.data import Dataset, DataLoader
 
-from data_utils import *
+from data_utils import load_info, create_dataloaders
 
 class NeuralNetwork(nn.Module):
     def __init__(self, input_dim, concept_dim, output_dim):
@@ -23,7 +23,7 @@ class NeuralNetwork(nn.Module):
         x = self.fc3(x)
         return x
 
-def train_model(model, train_loader, criterion, optimizer, num_epochs=25):
+def train_model(model, train_loader, criterion, optimizer, concept_dim, num_epochs=25):
     for epoch in range(num_epochs):
         model.train()
         running_loss = 0.0
@@ -37,7 +37,7 @@ def train_model(model, train_loader, criterion, optimizer, num_epochs=25):
         epoch_loss = running_loss / len(train_loader.dataset)
         print(f'Epoch {epoch}/{num_epochs - 1}, Loss: {epoch_loss:.4f}')
 
-def validate_model(model, valid_loader, criterion):
+def validate_model(model, valid_loader, criterion, concept_dim):
     model.eval()
     running_loss = 0.0
     with torch.no_grad():
@@ -49,7 +49,7 @@ def validate_model(model, valid_loader, criterion):
     print(f'Validation Loss: {epoch_loss:.4f}')
     return epoch_loss
 
-def test_model(model, test_loader):
+def test_model(model, test_loader, concept_dim):
     model.eval()
     predictions = []
     with torch.no_grad():
@@ -57,19 +57,6 @@ def test_model(model, test_loader):
             outputs = model(inputs[:, :-concept_dim], inputs[:, -concept_dim:])
             predictions.append(outputs.numpy())
     return predictions
-
-
-#################################################################################################################################
-
-def load_preprocessed_data():
-    input_data = pd.read_csv('../data/preprocessed/input.csv')
-    target_data = pd.read_csv('../data/preprocessed/target.csv')
-    
-    # date 열을 datetime 형식으로 변환
-    input_data['date'] = pd.to_datetime(input_data['date'])
-    target_data['date'] = pd.to_datetime(target_data['date'])
-    
-    return input_data, target_data
 
 def hyperparameter_tuning(train_loader, valid_loader, input_dim, concept_dim, output_dim):
     param_grid = {
@@ -86,7 +73,7 @@ def hyperparameter_tuning(train_loader, valid_loader, input_dim, concept_dim, ou
         optimizer = optim.Adam(model.parameters(), lr=params['learning_rate'], weight_decay=params['l1_penalty'])
         criterion = nn.MSELoss()
 
-        loss = train_and_evaluate_model(train_loader, valid_loader, model, criterion, optimizer, epochs=100, patience=5)
+        loss = train_and_evaluate_model(train_loader, valid_loader, model, criterion, optimizer, concept_dim, epochs=100, patience=5)
 
         if loss < best_loss:
             best_loss = loss
@@ -94,7 +81,7 @@ def hyperparameter_tuning(train_loader, valid_loader, input_dim, concept_dim, ou
 
     return best_params, best_loss
 
-def train_and_evaluate_model(train_loader, valid_loader, model, criterion, optimizer, epochs, patience):
+def train_and_evaluate_model(train_loader, valid_loader, model, criterion, optimizer, concept_dim, epochs, patience):
     best_loss = float('inf')
     patience_counter = 0
 
@@ -125,13 +112,23 @@ def train_and_evaluate_model(train_loader, valid_loader, model, criterion, optim
 
     return best_loss
 
+
+def load_preprocessed_data():
+    input_data = pd.read_csv('../data/preprocessed/input.csv')
+    target_data = pd.read_csv('../data/preprocessed/target.csv')
+    
+    input_data['date'] = pd.to_datetime(input_data['date'])
+    target_data['date'] = pd.to_datetime(target_data['date'])
+    
+    return input_data, target_data
+
 def main():
     input_data, target_data = load_preprocessed_data()
     firm_info, _ = load_info()
 
     train_loader, valid_loader, test_loader, test_index = create_dataloaders(
         input_data, target_data, 
-        train_date='1960-01-01', valid_date='1995-01-01', test_date='2006-01-01', batch_size=10000
+        train_date='1960-01-01', valid_date='1995-01-01', test_date='2006-01-01', batch_size=5000
     )
 
     input_dim = input_data.shape[1] - len(firm_info[firm_info['Cat.Data'] == 'Analyst']['Acronym'].values) - 2
@@ -147,10 +144,10 @@ def main():
     optimizer = optim.Adam(model.parameters(), lr=best_params['learning_rate'], weight_decay=best_params['l1_penalty'])
     criterion = nn.MSELoss()
 
-    train_model(model, train_loader, criterion, optimizer, num_epochs=100)
-    validate_model(model, valid_loader, criterion)
+    train_model(model, train_loader, criterion, optimizer, concept_dim, num_epochs=100)
+    validate_model(model, valid_loader, criterion, concept_dim)
 
-    predictions = test_model(model, test_loader)
+    predictions = test_model(model, test_loader, concept_dim)
     print("Test Predictions: ", predictions)
 
 if __name__ == "__main__":
