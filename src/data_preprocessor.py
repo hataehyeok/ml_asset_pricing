@@ -88,7 +88,7 @@ def get_na_summary(firm_predictors, firm_info):
 
 def fill_firm_na(firm_predictors, firm_info, method):
     '''
-        Fill missing malues in firm characteristics
+        Fill missing values in firm characteristics
     '''
     assert method in ['time', 'cross']
     
@@ -98,28 +98,22 @@ def fill_firm_na(firm_predictors, firm_info, method):
         firm_predictors_index.index = range(len(firm_predictors_index))
 
         # Firm characteristics except analyst consensus
-        # Not Change/Growth: ffill
-        ffill_col = list(firm_info[(firm_info['Cat.Data']!='Analyst') & (firm_info['Cat.Change']==0)]['Acronym'].values)
-        firm_predictors_ffill = firm_predictors.groupby('permno')[ffill_col].apply(lambda x: x.ffill())
-        firm_predictors_ffill.index = range(len(firm_predictors_ffill))
+        # Combine both ffill and ts_mean columns
+        relevant_cols = list(firm_info[(firm_info['Cat.Data']!='Analyst')]['Acronym'].values)
 
-        # Change/Growth: time-series mean
-        ts_mean_col = list(firm_info[(firm_info['Cat.Data']!='Analyst') & (firm_info['Cat.Change']==1)]['Acronym'].values)
-        firm_predictors_ts_mean = firm_predictors.groupby('permno')[ts_mean_col].apply(
-            lambda x: x.fillna(x.rolling(24, min_periods=1).mean())
-            )
-        firm_predictors_ts_mean.index = range(len(firm_predictors_ts_mean))
+        firm_predictors_filled = firm_predictors.groupby('permno')[relevant_cols].apply(lambda x: x.ffill())
+        firm_predictors_filled.index = range(len(firm_predictors_filled))
 
         # Analyst consensus: linear interpolation
         analyst_col = list(firm_info[firm_info['Cat.Data']=='Analyst']['Acronym'].values)
         firm_predictors_analyst = firm_predictors.groupby('permno')[analyst_col].apply(
             lambda x: x.interpolate(method='linear', limit_direction='forward')
-            )
+        )
         firm_predictors_analyst.index = range(len(firm_predictors_analyst))
 
         # Merge na filled dataframes
-        firm_predictors_filled = pd.concat([firm_predictors_index, firm_predictors_ffill, firm_predictors_ts_mean, firm_predictors_analyst], axis=1)
-        del(firm_predictors, firm_predictors_index, firm_predictors_ffill, firm_predictors_ts_mean, firm_predictors_analyst)
+        firm_predictors_filled = pd.concat([firm_predictors_index, firm_predictors_filled, firm_predictors_analyst], axis=1)
+        del firm_predictors, firm_predictors_index, firm_predictors_analyst
 
     if method == 'cross':
         # Firm characteristics except analyst consensus: cross-sectional mean
@@ -134,9 +128,10 @@ def fill_firm_na(firm_predictors, firm_info, method):
 
         # Rows with missing analyst consensus data are dropped
         firm_predictors_filled = pd.concat([firm_predictors_firm, firm_predictors_analyst], axis=1).dropna()
-        del(firm_predictors, firm_predictors_firm, firm_predictors_analyst)
+        del firm_predictors, firm_predictors_firm, firm_predictors_analyst
 
     return firm_predictors_filled
+
 
 def rank_norm(firm_predictors):
     index = ['permno', 'date']

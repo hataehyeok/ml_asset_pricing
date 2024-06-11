@@ -184,27 +184,6 @@ def get_data(predict=False, horizon = 1):
     print('Missing value filled...')
 
     ###########################################################################################################
-    # 3. Drop sparse columns
-
-    # Count missing samples
-    firm_na, analyst_na = get_na_summary(firm_predictors, firm_info)
-
-    # Drop analyst columns with too sparse samples
-    sparse_col_firm = list(firm_na[firm_na['missing rate']>0.2].index)
-    sparse_col_analyst = list(analyst_na[analyst_na['missing rate']>0.2].index)
-
-    # Drop columns
-    firm_predictors = firm_predictors.drop(sparse_col_firm, axis=1)
-    firm_predictors = firm_predictors.drop(sparse_col_analyst, axis=1)
-
-    before = len(firm_info['Acronym'])-2
-    firm_info = firm_info[firm_info['Acronym'].isin(firm_predictors.columns)]
-    after = len(firm_info['Acronym'])-2
-
-    print('Sparse column dropped...')
-    print('From ', before, ' features, total ', after, ' selected')
-
-    ###########################################################################################################
     # 4. Drop inappropriate firms
 
     before = len(firm_predictors['permno'].unique())
