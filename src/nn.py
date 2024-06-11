@@ -4,8 +4,7 @@ from torch.utils.data import Dataset, DataLoader
 import torch.nn as nn
 import torch.optim as optim
 
-from src.data_utils import *
-
+from data_utils import *
 
 #################################################################################################################################
 
@@ -64,8 +63,10 @@ def main():
 
     train_loader, valid_loader, test_loader, test_index = create_dataloaders(
         input_data, target_data, firm_info, 
-        train_date='2015-01-01', valid_date='2017-01-01', test_date='2019-01-01', batch_size=64
+        train_date='1960-01-01', valid_date='1995-01-01', test_date='2006-01-01', batch_size=64
     )
+
+    import pdb; pdb.set_trace()
 
     input_dim = input_data.shape[1] - len(firm_info[firm_info['Cat.Data'] == 'Analyst']['Acronym'].values) - 2
     concept_dim = len(firm_info[firm_info['Cat.Data'] == 'Analyst']['Acronym'].values)

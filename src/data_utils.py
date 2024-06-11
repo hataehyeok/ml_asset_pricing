@@ -5,7 +5,7 @@ import torch
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 
-from src.data_preprocessor import *
+from data_preprocessor import *
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -18,7 +18,7 @@ def load_CRSP():
     '''
 
     # Load GKX (2020) database
-    characs = pd.read_csv('data/raw/characs.csv')
+    characs = pd.read_csv('../data/raw/characs.csv')
     characs['date'] = characs['date'].apply(str).str.slice(stop=6)
     characs['date'] = pd.to_datetime(characs['date'], format = '%Y%m')
 
@@ -36,7 +36,7 @@ def load_welch_and_goyal():
         Here, I consider only 8 variables used in GKX (2020).
     '''
 
-    welch_goyal = pd.read_csv('data/raw/welch_goyal_raw.csv')
+    welch_goyal = pd.read_csv('../data/raw/welch_goyal_raw.csv')
     welch_goyal['yyyymm'] = pd.to_datetime(welch_goyal['yyyymm'], format = '%Y%m')
     welch_goyal = welch_goyal.rename(columns={'yyyymm':'date', 'b/m' : 'bm'})
     welch_goyal = welch_goyal.drop('csp', axis=1)
@@ -65,9 +65,9 @@ def load_info():
         Load info table of firm-level and macroeconomic predictors
     '''
 
-    firm_info = pd.read_csv('data/info/SignalDoc.csv')
+    firm_info = pd.read_csv('../data/info/SignalDoc.csv')
     firm_info = firm_info[firm_info['Cat.Signal']=='Predictor'].drop('Cat.Signal', axis=1) # Only leave predictor infos 
-    macro_info = pd.read_csv('data/info/FRED_MD.csv')
+    macro_info = pd.read_csv('../data/info/FRED_MD.csv')
 
     return firm_info, macro_info
 
@@ -94,23 +94,14 @@ def load_data():
     '''
 
     # Load firm-level characteristics from (1) Chen and Zimmermann (2021) and (2) Gu, Kelly, Xiu (2020)
-    signals = pd.read_csv('data/raw/signed_predictors_dl_wide.csv')
+    signals = pd.read_csv('../data/raw/signed_predictors_dl_wide.csv')
     signals['yyyymm'] = pd.to_datetime(signals['yyyymm'], format = '%Y%m')
     signals = signals.rename(columns={'yyyymm':'date'})
 
     # Load information of firm-level characteristics
     firm_info, _ = load_info()
 
-    # Shift quarterly and annual factors to adjust provision delay
-    index = ['permno', 'date']
-    quarter = list(firm_info[firm_info['Frequency']=='Quarterly']['Acronym'].values)
-    annual  = list(firm_info[firm_info['Frequency']=='Annual']['Acronym'].values)
-
-    signals = pd.concat([signals[index], 
-                     signals.drop(index+quarter+annual, axis=1), 
-                     signals.groupby('permno')[quarter].shift(3), 
-                     signals.groupby('permno')[annual].shift(6)], 
-                     axis = 1)
+    print(firm_info.columns)
 
     # Get [Price, Size, Short term reversal (mom1m)] from GKX (2020)
     CRSP_characs = load_CRSP()
@@ -124,7 +115,7 @@ def load_data():
     del CRSP_characs
 
     # Load macroeconomic predictors from (1) McCracken and Ng (2016) and (2) Welch and Goyal (2008)
-    FRED_MD = pd.read_csv('data/raw/FRED_MD.csv')
+    FRED_MD = pd.read_csv('../data/raw/FRED_MD.csv')
     FRED_MD['date'] = pd.to_datetime(FRED_MD['date'])
 
     # Get Welch and Goyal (2008) variables used in GKX (2020)
@@ -262,15 +253,32 @@ def get_data(predict=False, horizon = 1):
 
 #################################################################################################################################
 
-class CB_Dataset(Dataset):
-    def __init__(self, input, target, info):
+# class CB_Dataset(Dataset):
+#     def __init__(self, input, target, info):
 
-        # Get column names for each dataset
-        self.concept_col = list(info[info['Cat.Data'] == 'Analyst']['Acronym'].values)
+#         # Get column names for each dataset
+#         self.concept_col = list(info[info['Cat.Data'] == 'Analyst']['Acronym'].values)
+
+#         # Define dataset in numpy array form
+#         self.input_data = input.drop(self.concept_col + ['permno', 'date'], axis=1).values
+#         self.concept_data = input[self.concept_col].values
+#         self.output_data = target.drop(['permno', 'date'], axis=1).values
+
+#     def __len__(self):
+#         return len(self.input_data)
+    
+#     def __getitem__(self, idx):
+#         x = torch.from_numpy(self.input_data[idx]).type(torch.float)
+#         c = torch.from_numpy(self.concept_data[idx]).type(torch.float)
+#         y = torch.from_numpy(self.output_data[idx]).type(torch.float)
+
+#         return x, c, y
+    
+class CB_Dataset(Dataset):
+    def __init__(self, input, target):
 
         # Define dataset in numpy array form
-        self.input_data = input.drop(self.concept_col + ['permno', 'date'], axis=1).values
-        self.concept_data = input[self.concept_col].values
+        self.input_data = input.drop(['permno', 'date'], axis=1).values
         self.output_data = target.drop(['permno', 'date'], axis=1).values
 
     def __len__(self):
@@ -278,11 +286,9 @@ class CB_Dataset(Dataset):
     
     def __getitem__(self, idx):
         x = torch.from_numpy(self.input_data[idx]).type(torch.float)
-        c = torch.from_numpy(self.concept_data[idx]).type(torch.float)
         y = torch.from_numpy(self.output_data[idx]).type(torch.float)
 
-        return x, c, y
-
+        return x, y
 
 def create_dataloaders(input, target, info, train_date, valid_date, test_date, batch_size):
     '''
