@@ -228,7 +228,16 @@ def get_data(predict=False, horizon = 1):
     print('Columns: ', len(input.columns)-2)
     print('Firms: ', len(input['permno'].unique()))
 
+    # Save input and target to CSV files
+    input.to_csv('../data/preprocessed/input.csv', index=False)
+    target.to_csv('../data/preprocessed/target.csv', index=False)
+
+    # Display the first few rows of the dataframes
+    print(input.head())
+    print(target.head())
+
     return input, target
+
 
 #################################################################################################################################
 
@@ -269,7 +278,7 @@ class CB_Dataset(Dataset):
 
         return x, y
 
-def create_dataloaders(input, target, info, train_date, valid_date, test_date, batch_size):
+def create_dataloaders(input, target, train_date, valid_date, test_date, batch_size):
     '''
         Function that creates dataloaders for train, validation, and test sets
     '''
@@ -301,9 +310,9 @@ def create_dataloaders(input, target, info, train_date, valid_date, test_date, b
         ]
 
     # Create datasets for train, validation, and test sets
-    train_dataset = CB_Dataset(train_input, train_target, info)
-    valid_dataset = CB_Dataset(valid_input, valid_target, info)
-    test_dataset  = CB_Dataset(test_input , test_target , info)
+    train_dataset = CB_Dataset(train_input, train_target)
+    valid_dataset = CB_Dataset(valid_input, valid_target)
+    test_dataset  = CB_Dataset(test_input , test_target)
 
     g = torch.Generator()
     g.manual_seed(0)
