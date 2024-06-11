@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from torch.utils.data import Dataset, DataLoader
 
-from data_utils import load_info, create_dataloaders, get_data
+from data_utils import load_info, create_dataloaders
 
 class NeuralNetwork(nn.Module):
     def __init__(self, input_dim, hidden_layers, output_dim):
@@ -63,7 +63,6 @@ def train_and_evaluate_model(train_loader, valid_loader, model, criterion, optim
 
     return best_loss
 
-
 def hyperparameter_tuning(train_loader, valid_loader, input_dim, output_dim):
     param_grid = {
         'l1_penalty': np.logspace(-5, -3, num=3),
@@ -117,7 +116,6 @@ def test_model(test_loader, model, criterion):
     print(f'Test Loss: {test_loss:.4f}')
 
     return test_loss, predictions, actuals
-
 
 def calculate_r2_oos(predictions, actuals):
     numerator = np.sum((actuals - predictions) ** 2)
