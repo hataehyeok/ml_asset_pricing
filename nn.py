@@ -37,8 +37,10 @@ def train(model, train_loader, valid_loader, criterion, optimizer, epochs, patie
     for epoch in range(epochs):
         model.train()
         train_loss = 0.0
-        
+
         for data, target in train_loader:
+            data = data.float().requires_grad_()
+            target = target.float()
             optimizer.zero_grad()
             output = model(data)
             loss = criterion(output.squeeze(), target) + l1_regularization(model, l1_lambda)
@@ -52,6 +54,8 @@ def train(model, train_loader, valid_loader, criterion, optimizer, epochs, patie
         val_loss = 0.0
         with torch.no_grad():
             for data, target in valid_loader:
+                data = data.float()
+                target = target.float()
                 output = model(data)
                 loss = criterion(output.squeeze(), target)
                 val_loss += loss.item() * data.size(0)
@@ -79,6 +83,8 @@ def test(model, test_loader, criterion):
 
     with torch.no_grad():
         for inputs, targets in test_loader:
+            inputs = inputs.float()
+            targets = targets.float()
             outputs = model(inputs)
             loss = criterion(outputs, targets)
             test_loss += loss.item() * inputs.size(0)
@@ -101,8 +107,9 @@ def main():
 
     train_loader, valid_loader, test_loader, test_index = create_dataloaders(
         input_data, target_data, firm_info,
-        train_date='1993-12-01', valid_date='2010-01-01', test_date='2018-01-01', batch_size=1000)
+        train_date='2005-01-01', valid_date='2014-01-01', test_date='2023-11-01', batch_size=1000)
     
+    import pdb; pdb.set_trace()
     # Hyperparameters setting
     input_dim = input_data.shape[1] - 2
     output_dim = 1
