@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from torch.utils.data import Dataset, DataLoader
 
-from data_utils import load_info, create_dataloaders
+from data_utils import load_info, create_dataloaders, load_preprocessed_data
 
 class NeuralNetwork(nn.Module):
     def __init__(self, input_dim, hidden_layers, output_dim):
@@ -23,79 +23,61 @@ class NeuralNetwork(nn.Module):
     def forward(self, x):
         return self.network(x)
 
-def train_and_evaluate_model(train_loader, valid_loader, model, criterion, optimizer, epochs, patience):
-    best_loss = float('inf')
-    patience_counter = 0
+def l1_regularization(model, l1_lambda):
+    l1_norm = sum(p.abs().sum() for p in model.parameters())
+    return l1_lambda * l1_norm
 
+def calculate_r2_oos(predictions, actuals):
+    numerator = np.sum((actuals - predictions) ** 2)
+    denominator = np.sum(actuals ** 2)
+    r2_oos = 1 - (numerator / denominator)
+    return r2_oos
+
+def train(model, train_loader, valid_loader, criterion, optimizer, epochs, patience, l1_lambda, best_loss, patience_counter):
     for epoch in range(epochs):
         model.train()
-        running_train_loss = 0.0
-        for inputs, targets in train_loader:
+        train_loss = 0.0
+        
+        for data, target in train_loader:
             optimizer.zero_grad()
-            outputs = model(inputs)
-            loss = criterion(outputs, targets)
+            output = model(data)
+            loss = criterion(output.squeeze(), target) + l1_regularization(model, l1_lambda)
             loss.backward()
+
+            # Print gradients
+            for name, param in model.named_parameters():
+                if param.requires_grad and param.grad is not None:
+                    print(f'Gradient for {name}: {param.grad}')
+            
             optimizer.step()
-            running_train_loss += loss.item() * inputs.size(0)
-
-        epoch_train_loss = running_train_loss / len(train_loader.dataset)
-
+            train_loss += loss.item() * data.size(0)
+        
+        train_loss /= len(train_loader.dataset)
+        
         model.eval()
-        running_valid_loss = 0.0
+        val_loss = 0.0
         with torch.no_grad():
-            for inputs, targets in valid_loader:
-                outputs = model(inputs)
-                loss = criterion(outputs, targets)
-                running_valid_loss += loss.item() * inputs.size(0)
-
-        epoch_valid_loss = running_valid_loss / len(valid_loader.dataset)
-
-        print(f'Epoch {epoch+1}/{epochs}, Training Loss: {epoch_train_loss:.4f}, Validation Loss: {epoch_valid_loss:.4f}')
-
-        if epoch_valid_loss < best_loss:
-            best_loss = epoch_valid_loss
+            for data, target in valid_loader:
+                output = model(data)
+                loss = criterion(output.squeeze(), target)
+                val_loss += loss.item() * data.size(0)
+        
+        val_loss /= len(valid_loader.dataset)
+        
+        print(f'Epoch {epoch+1}/{epochs}, Train Loss: {train_loss:.6f}, Val Loss: {val_loss:.6f}')
+        
+        # Early stopping
+        if val_loss < best_loss:
+            best_loss = val_loss
             patience_counter = 0
         else:
             patience_counter += 1
-            if patience_counter >= patience:
-                print("Early stopping due to no improvement in validation loss.")
-                break
+        
+        if patience_counter >= patience:
+            print("Early stopping triggered")
+            break
 
-    return best_loss
-
-def hyperparameter_tuning(train_loader, valid_loader, input_dim, output_dim):
-    param_grid = {
-        'l1_penalty': np.logspace(-5, -3, num=3),
-        'learning_rate': [0.001, 0.01],
-        'batch_size': [2000]
-    }
-
-    best_params = None
-    best_loss = float('inf')
-
-    for params in ParameterGrid(param_grid):
-        model = NeuralNetwork(input_dim=input_dim, hidden_layers=[32, 16, 8], output_dim=output_dim)
-        optimizer = optim.Adam(model.parameters(), lr=params['learning_rate'], weight_decay=params['l1_penalty'])
-        criterion = nn.MSELoss()
-
-        loss = train_and_evaluate_model(train_loader, valid_loader, model, criterion, optimizer, epochs=50, patience=5)
-
-        if loss < best_loss:
-            best_loss = loss
-            best_params = params
-
-    return best_params, best_loss
-
-def load_preprocessed_data():
-    input_data = pd.read_csv('data/preprocess/input.csv')
-    target_data = pd.read_csv('data/preprocess/target.csv')
-    
-    input_data['date'] = pd.to_datetime(input_data['date'])
-    target_data['date'] = pd.to_datetime(target_data['date'])
-    
-    return input_data, target_data
-
-def test_model(test_loader, model, criterion):
+def test(model, test_loader, criterion):
     model.eval()
     test_loss = 0.0
     predictions = []
@@ -115,13 +97,8 @@ def test_model(test_loader, model, criterion):
 
     print(f'Test Loss: {test_loss:.4f}')
 
-    return test_loss, predictions, actuals
-
-def calculate_r2_oos(predictions, actuals):
-    numerator = np.sum((actuals - predictions) ** 2)
-    denominator = np.sum(actuals ** 2)
-    r2_oos = 1 - (numerator / denominator)
-    return r2_oos
+    r2_oos = calculate_r2_oos(predictions, actuals)
+    print(f'R²_oos: {r2_oos:.4f}')
 
 def main():
     input_data, target_data = load_preprocessed_data()
@@ -130,29 +107,27 @@ def main():
 
     train_loader, valid_loader, test_loader, test_index = create_dataloaders(
         input_data, target_data, firm_info,
-        train_date='1993-12-01', valid_date='2010-01-01', test_date='2018-01-01', batch_size=1000
-    )
+        train_date='1993-12-01', valid_date='2010-01-01', test_date='2018-01-01', batch_size=1000)
 
+    # Hyperparameters setting
     input_dim = input_data.shape[1] - 2
     output_dim = 1
+    learning_rate = 0.001
+    epochs = 100
+    patience = 5
+    l1_lambda = 1e-5
 
-    best_params, best_loss = hyperparameter_tuning(train_loader, valid_loader, input_dim, output_dim)
-
-    print(f'Best Params: {best_params}')
-    print(f'Best Validation Loss: {best_loss}')
-
-    model = NeuralNetwork(input_dim=input_dim, hidden_layers=[32, 16, 8], output_dim=output_dim)
-    optimizer = optim.Adam(model.parameters(), lr=best_params['learning_rate'], weight_decay=best_params['l1_penalty'])
+    model = NeuralNetwork(input_dim, [128, 64, 32], output_dim)
     criterion = nn.MSELoss()
+    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
-    print("Starting model training...")
-    train_and_evaluate_model(train_loader, valid_loader, model, criterion, optimizer, epochs=100, patience=5)
+    # Early stopping
+    best_loss = float('inf')
+    patience_counter = 0
 
-    print("Evaluating on test data...")
-    test_loss, predictions, actuals = test_model(test_loader, model, criterion)
+    train(model, train_loader, valid_loader, criterion, optimizer, epochs, patience, l1_lambda, best_loss, patience_counter)
+    test(model, test_loader, criterion)
+    
 
-    r2_oos = calculate_r2_oos(predictions, actuals)
-    print(f'R²_oos: {r2_oos:.4f}')
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

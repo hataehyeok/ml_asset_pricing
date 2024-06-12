@@ -371,3 +371,12 @@ def create_dataloaders(input, target, info, train_date, valid_date, test_date, b
     test_index = test_target[['date', 'permno']]
 
     return train_loader, valid_loader, test_loader, test_index
+
+def load_preprocessed_data():
+    input_data = pd.read_csv('data/preprocess/input.csv')
+    target_data = pd.read_csv('data/preprocess/target.csv')
+    
+    input_data['date'] = pd.to_datetime(input_data['date'])
+    target_data['date'] = pd.to_datetime(target_data['date'])
+    
+    return input_data, target_data
