@@ -43,12 +43,6 @@ def train(model, train_loader, valid_loader, criterion, optimizer, epochs, patie
             output = model(data)
             loss = criterion(output.squeeze(), target) + l1_regularization(model, l1_lambda)
             loss.backward()
-
-            # Print gradients
-            for name, param in model.named_parameters():
-                if param.requires_grad and param.grad is not None:
-                    print(f'Gradient for {name}: {param.grad}')
-            
             optimizer.step()
             train_loss += loss.item() * data.size(0)
         
@@ -108,7 +102,7 @@ def main():
     train_loader, valid_loader, test_loader, test_index = create_dataloaders(
         input_data, target_data, firm_info,
         train_date='1993-12-01', valid_date='2010-01-01', test_date='2018-01-01', batch_size=1000)
-
+    
     # Hyperparameters setting
     input_dim = input_data.shape[1] - 2
     output_dim = 1
