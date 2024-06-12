@@ -112,7 +112,9 @@ def main():
 
     train_loader, valid_loader, test_loader, test_index = create_dataloaders(
         input_data, target_data, firm_info,
-        train_date='2008-01-01', valid_date='2017-01-01', test_date='2023-11-01', batch_size=1000)
+        train_date='2008-01-01', valid_date='2017-01-01', test_date='2023-11-01', batch_size=2000)
+    
+    print(len(train_loader), len(valid_loader), len(test_loader))
     
     # Hyperparameters setting
     input_dim = input_data.shape[1] - 2
@@ -122,7 +124,7 @@ def main():
     patience = 5
     l1_lambda = 1e-5
 
-    model = NeuralNetwork(input_dim, [128, 64, 32], output_dim)
+    model = NeuralNetwork(input_dim, [64, 32], output_dim)
     criterion = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
