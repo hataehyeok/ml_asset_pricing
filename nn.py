@@ -9,6 +9,8 @@ import logging
 
 from data_utils import load_info, create_dataloaders, load_preprocessed_data
 
+logging.basicConfig(filename='model_output.log', level=logging.INFO, format='%(asctime)s - %(message)s')
+
 class NeuralNetwork(nn.Module):
     def __init__(self, input_dim, hidden_layers, output_dim):
         super(NeuralNetwork, self).__init__()
@@ -112,7 +114,6 @@ def main():
         input_data, target_data, firm_info,
         train_date='2008-01-01', valid_date='2017-01-01', test_date='2023-11-01', batch_size=1000)
     
-    import pdb; pdb.set_trace()
     # Hyperparameters setting
     input_dim = input_data.shape[1] - 2
     output_dim = 1
