@@ -18,7 +18,7 @@ class NeuralNetwork(nn.Module):
         prev_dim = input_dim
         for hidden_dim in hidden_layers:
             layers.append(nn.Linear(prev_dim, hidden_dim))
-            layers.append(nn.ReLU())
+            layers.append(nn.LeakyReLU(negative_slope=0.01))
             prev_dim = hidden_dim
         layers.append(nn.Linear(prev_dim, output_dim))
         self.network = nn.Sequential(*layers)
@@ -112,7 +112,7 @@ def main():
 
     train_loader, valid_loader, test_loader, test_index = create_dataloaders(
         input_data, target_data, firm_info,
-        train_date='2008-01-01', valid_date='2017-01-01', test_date='2023-11-01', batch_size=2000)
+        train_date='2008-01-01', valid_date='2015-01-01', test_date='2023-11-01', batch_size=2000)
     
     print(len(train_loader), len(valid_loader), len(test_loader))
     

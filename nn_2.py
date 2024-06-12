@@ -73,14 +73,16 @@ def train(train_loader, valid_loader, model, criterion, optimizer, epochs, patie
 
         print(f'Epoch {epoch+1}/{epochs}, Training Loss: {epoch_train_loss:.4f}, Validation Loss: {epoch_valid_loss:.4f}')
 
+        # Early stopping
         if epoch_valid_loss < best_loss:
             best_loss = epoch_valid_loss
             patience_counter = 0
         else:
             patience_counter += 1
-            if patience_counter >= patience:
-                print("Early stopping due to no improvement in validation loss.")
-                break
+        
+        if patience_counter >= patience:
+            print("Early stopping triggered")
+            break
 
     return best_loss
 
