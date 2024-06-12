@@ -5,6 +5,7 @@ from sklearn.model_selection import ParameterGrid
 import numpy as np
 import pandas as pd
 from torch.utils.data import Dataset, DataLoader
+import logging
 
 from data_utils import load_info, create_dataloaders, load_preprocessed_data
 
@@ -86,6 +87,8 @@ def test(model, test_loader, criterion):
             inputs = inputs.float()
             targets = targets.float()
             outputs = model(inputs)
+            # print outputs by logging
+            logging.info(f'outputs: {outputs}')
             loss = criterion(outputs, targets)
             test_loss += loss.item() * inputs.size(0)
             predictions.append(outputs.numpy())
@@ -107,7 +110,7 @@ def main():
 
     train_loader, valid_loader, test_loader, test_index = create_dataloaders(
         input_data, target_data, firm_info,
-        train_date='2005-01-01', valid_date='2014-01-01', test_date='2023-11-01', batch_size=1000)
+        train_date='2008-01-01', valid_date='2017-01-01', test_date='2023-11-01', batch_size=1000)
     
     import pdb; pdb.set_trace()
     # Hyperparameters setting
