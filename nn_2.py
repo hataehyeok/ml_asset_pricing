@@ -163,7 +163,7 @@ def main():
     train(train_loader, valid_loader, model, criterion, optimizer, epochs=100, patience=5)
 
     print("Evaluating on test data...")
-    test(test_loader, model, criterion)
+    test(model, test_loader, criterion)
 
 if __name__ == "__main__":
     main()
