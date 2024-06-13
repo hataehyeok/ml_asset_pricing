@@ -40,9 +40,9 @@ def main():
     }
 
     gb_model = HistGradientBoostingRegressor()
-    # tscv = TimeSeriesSplit(n_splits=5)
+    tscv = TimeSeriesSplit(n_splits=5)
 
-    grid_search = GridSearchCV(gb_model, param_grid=params, cv=None, scoring='neg_mean_squared_error', verbose=1, n_jobs=-1)
+    grid_search = GridSearchCV(gb_model, param_grid=params, cv=tscv, scoring='neg_mean_squared_error', verbose=1, n_jobs=4)
     grid_search.fit(x_train_valid, y_train_valid)
 
     print(f"Best parameters: {grid_search.best_params_}")
