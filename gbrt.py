@@ -1,8 +1,5 @@
-import torch
-import torch.nn as nn
-import torch.optim as optim
 import numpy as np
-from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor
+from sklearn.ensemble import HistGradientBoostingRegressor
 from sklearn.metrics import accuracy_score
 import logging
 
@@ -25,7 +22,7 @@ def main():
     print(input_data.shape, target_data.shape)
     firm_info, _ = load_info()
 
-    train_loader, valid_loader, test_loader, test_index = create_dataloaders(
+    train_loader, valid_loader, test_loader, _ = create_dataloaders(
         input_data, target_data, firm_info,
         train_date='2008-01-01', valid_date='2015-01-01', test_date='2023-11-01', batch_size=2000)
     
@@ -36,11 +33,16 @@ def main():
     X_valid, y_valid = extract_data_from_loader(valid_loader)
     X_test, y_test = extract_data_from_loader(test_loader)
     
-    gb_model = GradientBoostingRegressor(n_estimators=500, learning_rate=0.01, max_depth=1, random_state=42)
+    gb_model = HistGradientBoostingRegressor(
+        max_iter=500,  # n_estimators
+        learning_rate=0.01,
+        max_depth=10,
+        random_state=42,
+        verbose=1  # 학습 진행 상황을 출력
+    )
     gb_model.fit(X_train, y_train)
 
     gb_valid_preds = gb_model.predict(X_valid)
-
     gb_valid_acc = accuracy_score(y_valid, gb_valid_preds)
 
     print(f"Gradient Boosted Tree Validation Accuracy: {gb_valid_acc}")
