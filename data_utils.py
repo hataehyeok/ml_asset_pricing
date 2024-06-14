@@ -257,6 +257,8 @@ def get_data(predict=False, horizon = 1):
     firm_predictors.dropna(inplace=True)
     
     # Split input and output
+    # target에는 permno, date와 model이 예측해야 하는 return이 들어가야 하고
+    # input에는 model이 예측해야하는 값인 return을 제외한 나머지 값들이 들어가야 함
     target = firm_predictors[['permno', 'date', 'Return']]
     firm_predictors = firm_predictors.drop('Return', axis=1)
 
