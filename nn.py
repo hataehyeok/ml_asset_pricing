@@ -1,15 +1,10 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from sklearn.model_selection import ParameterGrid
 import numpy as np
-import pandas as pd
-from torch.utils.data import Dataset, DataLoader
-import logging
 
 from data_utils import load_info, create_dataloaders, load_preprocessed_data
 
-logging.basicConfig(filename='model_output.log', level=logging.INFO, format='%(asctime)s - %(message)s')
 
 class NeuralNetwork(nn.Module):
     def __init__(self, input_dim, hidden_layers, output_dim):
@@ -18,7 +13,7 @@ class NeuralNetwork(nn.Module):
         prev_dim = input_dim
         for hidden_dim in hidden_layers:
             layers.append(nn.Linear(prev_dim, hidden_dim))
-            layers.append(nn.LeakyReLU(negative_slope=0.01))
+            layers.append(nn.ReLU())
             prev_dim = hidden_dim
         layers.append(nn.Linear(prev_dim, output_dim))
         self.network = nn.Sequential(*layers)
@@ -112,7 +107,7 @@ def main():
 
     train_loader, valid_loader, test_loader, test_index = create_dataloaders(
         input_data, target_data, firm_info,
-        train_date='2008-01-01', valid_date='2015-01-01', test_date='2023-11-01', batch_size=2000)
+        train_date='2008-01-01', valid_date='2017-01-01', test_date='2023-11-01', batch_size=2000)
     
     print(len(train_loader), len(valid_loader), len(test_loader))
     
