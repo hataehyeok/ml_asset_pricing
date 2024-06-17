@@ -1,0 +1,422 @@
+Training with hidden_layers=[128, 64, 32], learning_rate=0.01, l1_lambda=1e-05
+
+Epoch 1/100, Train Loss: 0.049743, Val Loss: 0.025608
+Epoch 2/100, Train Loss: 0.038571, Val Loss: 0.028527
+Epoch 3/100, Train Loss: 0.034729, Val Loss: 0.028688
+Epoch 4/100, Train Loss: 0.032773, Val Loss: 0.057415
+Epoch 5/100, Train Loss: 0.031686, Val Loss: 0.054789
+Epoch 6/100, Train Loss: 0.030810, Val Loss: 0.056891
+Early stopping triggered
+R² score: -4.942744759471736
+
+
+Training with hidden_layers=[128, 64, 32], learning_rate=0.01, l1_lambda=0.001
+
+Epoch 1/100, Train Loss: 0.355924, Val Loss: 0.025388
+Epoch 2/100, Train Loss: 0.080543, Val Loss: 0.025074
+Epoch 3/100, Train Loss: 0.074537, Val Loss: 0.025113
+Epoch 4/100, Train Loss: 0.074701, Val Loss: 0.025146
+Epoch 5/100, Train Loss: 0.075059, Val Loss: 0.025168
+Epoch 6/100, Train Loss: 0.075300, Val Loss: 0.025182
+Epoch 7/100, Train Loss: 0.075467, Val Loss: 0.025192
+Early stopping triggered
+R² score: -0.00022022094712359497
+
+
+Training with hidden_layers=[128, 64, 32], learning_rate=0.001, l1_lambda=1e-05
+
+Epoch 1/100, Train Loss: 0.092535, Val Loss: 0.028645
+Epoch 2/100, Train Loss: 0.044210, Val Loss: 0.027329
+Epoch 3/100, Train Loss: 0.041653, Val Loss: 0.027138
+Epoch 4/100, Train Loss: 0.039874, Val Loss: 0.027062
+Epoch 5/100, Train Loss: 0.038569, Val Loss: 0.027071
+Epoch 6/100, Train Loss: 0.037554, Val Loss: 0.027141
+Epoch 7/100, Train Loss: 0.036693, Val Loss: 0.027545
+Epoch 8/100, Train Loss: 0.035900, Val Loss: 0.029092
+Epoch 9/100, Train Loss: 0.035132, Val Loss: 0.036642
+Early stopping triggered
+R² score: -0.7516597366354538
+
+
+Training with hidden_layers=[128, 64, 32], learning_rate=0.001, l1_lambda=0.001
+
+Epoch 1/100, Train Loss: 0.893511, Val Loss: 0.025923
+Epoch 2/100, Train Loss: 0.302782, Val Loss: 0.026933
+Epoch 3/100, Train Loss: 0.246770, Val Loss: 0.028441
+Epoch 4/100, Train Loss: 0.210897, Val Loss: 0.065528
+Epoch 5/100, Train Loss: 0.222124, Val Loss: 0.025798
+Epoch 6/100, Train Loss: 0.159827, Val Loss: 0.027292
+Epoch 7/100, Train Loss: 0.131656, Val Loss: 0.026400
+Epoch 8/100, Train Loss: 0.105697, Val Loss: 0.033358
+Epoch 9/100, Train Loss: 0.078365, Val Loss: 0.029631
+Epoch 10/100, Train Loss: 0.059435, Val Loss: 0.027986
+Early stopping triggered
+R² score: -0.1601211553434505
+
+
+Training with hidden_layers=[64, 32, 16], learning_rate=0.01, l1_lambda=1e-05
+
+Epoch 1/100, Train Loss: 0.041356, Val Loss: 0.025854
+Epoch 2/100, Train Loss: 0.033470, Val Loss: 0.028454
+Epoch 3/100, Train Loss: 0.031909, Val Loss: 0.037512
+Epoch 4/100, Train Loss: 0.031050, Val Loss: 0.035243
+Epoch 5/100, Train Loss: 0.030684, Val Loss: 0.040456
+Epoch 6/100, Train Loss: 0.030172, Val Loss: 0.043855
+Early stopping triggered
+R² score: -2.7144067736915876
+
+
+Training with hidden_layers=[64, 32, 16], learning_rate=0.01, l1_lambda=0.001
+
+Epoch 1/100, Train Loss: 0.221601, Val Loss: 0.025303
+Epoch 2/100, Train Loss: 0.063117, Val Loss: 0.025814
+Epoch 3/100, Train Loss: 0.053321, Val Loss: 0.028992
+Epoch 4/100, Train Loss: 0.050977, Val Loss: 0.025066
+Epoch 5/100, Train Loss: 0.048783, Val Loss: 0.025025
+Epoch 6/100, Train Loss: 0.047991, Val Loss: 0.025032
+Epoch 7/100, Train Loss: 0.048041, Val Loss: 0.025038
+Epoch 8/100, Train Loss: 0.048153, Val Loss: 0.025044
+Epoch 9/100, Train Loss: 0.048251, Val Loss: 0.025049
+Epoch 10/100, Train Loss: 0.048329, Val Loss: 0.025055
+Early stopping triggered
+R² score: -0.004338019982479624
+
+
+Training with hidden_layers=[64, 32, 16], learning_rate=0.001, l1_lambda=1e-05
+
+Epoch 1/100, Train Loss: 0.049588, Val Loss: 0.026874
+Epoch 2/100, Train Loss: 0.035360, Val Loss: 0.026186
+Epoch 3/100, Train Loss: 0.033907, Val Loss: 0.026159
+Epoch 4/100, Train Loss: 0.033011, Val Loss: 0.026336
+Epoch 5/100, Train Loss: 0.032397, Val Loss: 0.026461
+Epoch 6/100, Train Loss: 0.031924, Val Loss: 0.026987
+Epoch 7/100, Train Loss: 0.031519, Val Loss: 0.027807
+Epoch 8/100, Train Loss: 0.031106, Val Loss: 0.032724
+Early stopping triggered
+R² score: -0.2743689343262541
+
+
+Training with hidden_layers=[64, 32, 16], learning_rate=0.001, l1_lambda=0.001
+
+Epoch 1/100, Train Loss: 0.521854, Val Loss: 0.026858
+Epoch 2/100, Train Loss: 0.210223, Val Loss: 0.026818
+Epoch 3/100, Train Loss: 0.153447, Val Loss: 0.028798
+Epoch 4/100, Train Loss: 0.132398, Val Loss: 0.027040
+Epoch 5/100, Train Loss: 0.117098, Val Loss: 0.025836
+Epoch 6/100, Train Loss: 0.103888, Val Loss: 0.026189
+Epoch 7/100, Train Loss: 0.091168, Val Loss: 0.027501
+Epoch 8/100, Train Loss: 0.077959, Val Loss: 0.027113
+Epoch 9/100, Train Loss: 0.065517, Val Loss: 0.027527
+Epoch 10/100, Train Loss: 0.054464, Val Loss: 0.028326
+Early stopping triggered
+R² score: -0.14980602631653261
+
+
+Training with hidden_layers=[32, 16, 8], learning_rate=0.01, l1_lambda=1e-05
+
+Epoch 1/100, Train Loss: 0.038940, Val Loss: 0.026199
+Epoch 2/100, Train Loss: 0.031810, Val Loss: 0.025722
+Epoch 3/100, Train Loss: 0.030671, Val Loss: 0.026835
+Epoch 4/100, Train Loss: 0.030046, Val Loss: 0.028511
+Epoch 5/100, Train Loss: 0.029782, Val Loss: 0.034947
+Epoch 6/100, Train Loss: 0.029593, Val Loss: 0.030203
+Epoch 7/100, Train Loss: 0.029324, Val Loss: 0.033541
+Early stopping triggered
+R² score: -0.5250400614051358
+
+
+Training with hidden_layers=[32, 16, 8], learning_rate=0.01, l1_lambda=0.001
+
+Epoch 1/100, Train Loss: 0.107378, Val Loss: 0.026072
+Epoch 2/100, Train Loss: 0.041428, Val Loss: 0.029529
+Epoch 3/100, Train Loss: 0.038284, Val Loss: 0.025181
+Epoch 4/100, Train Loss: 0.037613, Val Loss: 0.025195
+Epoch 5/100, Train Loss: 0.037579, Val Loss: 0.025203
+Epoch 6/100, Train Loss: 0.037620, Val Loss: 0.025204
+Epoch 7/100, Train Loss: 0.037664, Val Loss: 0.025209
+Epoch 8/100, Train Loss: 0.037683, Val Loss: 0.025212
+Early stopping triggered
+R² score: -8.638345741385223e-05
+
+
+Training with hidden_layers=[32, 16, 8], learning_rate=0.001, l1_lambda=1e-05
+
+Epoch 1/100, Train Loss: 0.133765, Val Loss: 0.033559
+Epoch 2/100, Train Loss: 0.036806, Val Loss: 0.029251
+Epoch 3/100, Train Loss: 0.033123, Val Loss: 0.027810
+Epoch 4/100, Train Loss: 0.032076, Val Loss: 0.027194
+Epoch 5/100, Train Loss: 0.031477, Val Loss: 0.027032
+Epoch 6/100, Train Loss: 0.031053, Val Loss: 0.027094
+Epoch 7/100, Train Loss: 0.030730, Val Loss: 0.027217
+Epoch 8/100, Train Loss: 0.030463, Val Loss: 0.027352
+Epoch 9/100, Train Loss: 0.030241, Val Loss: 0.027463
+Epoch 10/100, Train Loss: 0.030041, Val Loss: 0.027697
+Early stopping triggered
+R² score: -0.07991737052450021
+
+
+Training with hidden_layers=[32, 16, 8], learning_rate=0.001, l1_lambda=0.001
+
+Epoch 1/100, Train Loss: 0.270140, Val Loss: 0.026842
+Epoch 2/100, Train Loss: 0.131976, Val Loss: 0.026190
+Epoch 3/100, Train Loss: 0.101965, Val Loss: 0.025519
+Epoch 4/100, Train Loss: 0.087506, Val Loss: 0.026488
+Epoch 5/100, Train Loss: 0.078690, Val Loss: 0.025701
+Epoch 6/100, Train Loss: 0.071431, Val Loss: 0.025662
+Epoch 7/100, Train Loss: 0.064758, Val Loss: 0.025647
+Epoch 8/100, Train Loss: 0.058058, Val Loss: 0.025769
+Early stopping triggered
+R² score: -0.06015755368649578
+
+
+Training with hidden_layers=[128, 64], learning_rate=0.01, l1_lambda=1e-05
+
+Epoch 1/100, Train Loss: 0.062614, Val Loss: 0.026215
+Epoch 2/100, Train Loss: 0.042266, Val Loss: 0.025419
+Epoch 3/100, Train Loss: 0.038533, Val Loss: 0.025639
+Epoch 4/100, Train Loss: 0.035978, Val Loss: 0.027706
+Epoch 5/100, Train Loss: 0.034212, Val Loss: 0.052255
+Epoch 6/100, Train Loss: 0.033095, Val Loss: 0.082869
+Epoch 7/100, Train Loss: 0.032455, Val Loss: 0.063171
+Early stopping triggered
+R² score: -0.5031027147939982
+
+
+Training with hidden_layers=[128, 64], learning_rate=0.01, l1_lambda=0.001
+
+Epoch 1/100, Train Loss: 0.521044, Val Loss: 0.026129
+Epoch 2/100, Train Loss: 0.125320, Val Loss: 0.026531
+Epoch 3/100, Train Loss: 0.082131, Val Loss: 0.025367
+Epoch 4/100, Train Loss: 0.071395, Val Loss: 0.025001
+Epoch 5/100, Train Loss: 0.068104, Val Loss: 0.025026
+Epoch 6/100, Train Loss: 0.067447, Val Loss: 0.025033
+Epoch 7/100, Train Loss: 0.068011, Val Loss: 0.025040
+Epoch 8/100, Train Loss: 0.068568, Val Loss: 0.025045
+Epoch 9/100, Train Loss: 0.069041, Val Loss: 0.025050
+Early stopping triggered
+R² score: -0.004655685787650299
+
+
+Training with hidden_layers=[128, 64], learning_rate=0.001, l1_lambda=1e-05
+
+Epoch 1/100, Train Loss: 0.056768, Val Loss: 0.029530
+Epoch 2/100, Train Loss: 0.042623, Val Loss: 0.028612
+Epoch 3/100, Train Loss: 0.039706, Val Loss: 0.028689
+Epoch 4/100, Train Loss: 0.037845, Val Loss: 0.029198
+Epoch 5/100, Train Loss: 0.036557, Val Loss: 0.029589
+Epoch 6/100, Train Loss: 0.035566, Val Loss: 0.030077
+Epoch 7/100, Train Loss: 0.034736, Val Loss: 0.031353
+Early stopping triggered
+R² score: -0.17407042797311623
+
+
+Training with hidden_layers=[128, 64], learning_rate=0.001, l1_lambda=0.001
+
+Epoch 1/100, Train Loss: 0.703865, Val Loss: 0.026405
+Epoch 2/100, Train Loss: 0.233348, Val Loss: 0.026700
+Epoch 3/100, Train Loss: 0.193334, Val Loss: 0.025808
+Epoch 4/100, Train Loss: 0.167337, Val Loss: 0.026068
+Epoch 5/100, Train Loss: 0.142797, Val Loss: 0.026159
+Epoch 6/100, Train Loss: 0.118499, Val Loss: 0.027600
+Epoch 7/100, Train Loss: 0.096179, Val Loss: 0.025995
+Epoch 8/100, Train Loss: 0.074511, Val Loss: 0.025447
+Epoch 9/100, Train Loss: 0.053571, Val Loss: 0.025197
+Epoch 10/100, Train Loss: 0.041004, Val Loss: 0.025249
+Epoch 11/100, Train Loss: 0.037067, Val Loss: 0.025024
+Epoch 12/100, Train Loss: 0.034816, Val Loss: 0.025001
+Epoch 13/100, Train Loss: 0.033462, Val Loss: 0.024992
+Epoch 14/100, Train Loss: 0.032745, Val Loss: 0.024988
+Epoch 15/100, Train Loss: 0.032377, Val Loss: 0.025000
+Epoch 16/100, Train Loss: 0.032161, Val Loss: 0.025003
+Epoch 17/100, Train Loss: 0.032098, Val Loss: 0.025003
+Epoch 18/100, Train Loss: 0.032113, Val Loss: 0.025003
+Epoch 19/100, Train Loss: 0.032127, Val Loss: 0.025002
+Early stopping triggered
+R² score: -0.017955752201327613
+
+
+Training with hidden_layers=[64, 32], learning_rate=0.01, l1_lambda=1e-05
+
+Epoch 1/100, Train Loss: 0.041588, Val Loss: 0.026461
+Epoch 2/100, Train Loss: 0.033310, Val Loss: 0.026004
+Epoch 3/100, Train Loss: 0.031713, Val Loss: 0.028852
+Epoch 4/100, Train Loss: 0.030768, Val Loss: 0.028544
+Epoch 5/100, Train Loss: 0.030141, Val Loss: 0.040570
+Epoch 6/100, Train Loss: 0.029876, Val Loss: 0.046976
+Epoch 7/100, Train Loss: 0.029769, Val Loss: 0.052191
+Early stopping triggered
+R² score: -0.07537713031874382
+
+
+Training with hidden_layers=[64, 32], learning_rate=0.01, l1_lambda=0.001
+
+Epoch 1/100, Train Loss: 0.238145, Val Loss: 0.026349
+Epoch 2/100, Train Loss: 0.068177, Val Loss: 0.025189
+Epoch 3/100, Train Loss: 0.052339, Val Loss: 0.025002
+Epoch 4/100, Train Loss: 0.047968, Val Loss: 0.025007
+Epoch 5/100, Train Loss: 0.046667, Val Loss: 0.025015
+Epoch 6/100, Train Loss: 0.046684, Val Loss: 0.025023
+Epoch 7/100, Train Loss: 0.046913, Val Loss: 0.025029
+Epoch 8/100, Train Loss: 0.047102, Val Loss: 0.025035
+Early stopping triggered
+R² score: -0.00604316555267026
+
+
+Training with hidden_layers=[64, 32], learning_rate=0.001, l1_lambda=1e-05
+
+Epoch 1/100, Train Loss: 0.054101, Val Loss: 0.028861
+Epoch 2/100, Train Loss: 0.035673, Val Loss: 0.027774
+Epoch 3/100, Train Loss: 0.033914, Val Loss: 0.027729
+Epoch 4/100, Train Loss: 0.032877, Val Loss: 0.028084
+Epoch 5/100, Train Loss: 0.032192, Val Loss: 0.028559
+Epoch 6/100, Train Loss: 0.031689, Val Loss: 0.029118
+Epoch 7/100, Train Loss: 0.031269, Val Loss: 0.029417
+Epoch 8/100, Train Loss: 0.030882, Val Loss: 0.031516
+Early stopping triggered
+R² score: -0.1733458792099305
+
+
+Training with hidden_layers=[64, 32], learning_rate=0.001, l1_lambda=0.001
+
+Epoch 1/100, Train Loss: 0.402297, Val Loss: 0.027327
+Epoch 2/100, Train Loss: 0.159365, Val Loss: 0.026396
+Epoch 3/100, Train Loss: 0.121088, Val Loss: 0.027958
+Epoch 4/100, Train Loss: 0.106671, Val Loss: 0.026126
+Epoch 5/100, Train Loss: 0.095026, Val Loss: 0.027490
+Epoch 6/100, Train Loss: 0.082754, Val Loss: 0.026702
+Epoch 7/100, Train Loss: 0.070797, Val Loss: 0.025610
+Epoch 8/100, Train Loss: 0.058923, Val Loss: 0.026107
+Epoch 9/100, Train Loss: 0.047952, Val Loss: 0.025624
+Epoch 10/100, Train Loss: 0.039819, Val Loss: 0.025872
+Epoch 11/100, Train Loss: 0.036220, Val Loss: 0.025193
+Epoch 12/100, Train Loss: 0.033993, Val Loss: 0.025364
+Epoch 13/100, Train Loss: 0.032568, Val Loss: 0.025132
+Epoch 14/100, Train Loss: 0.031586, Val Loss: 0.025071
+Epoch 15/100, Train Loss: 0.030935, Val Loss: 0.025051
+Epoch 16/100, Train Loss: 0.030536, Val Loss: 0.024988
+Epoch 17/100, Train Loss: 0.030356, Val Loss: 0.025012
+Epoch 18/100, Train Loss: 0.030290, Val Loss: 0.025006
+Epoch 19/100, Train Loss: 0.030279, Val Loss: 0.024990
+Epoch 20/100, Train Loss: 0.030271, Val Loss: 0.024985
+Epoch 21/100, Train Loss: 0.030252, Val Loss: 0.024995
+Epoch 22/100, Train Loss: 0.030179, Val Loss: 0.025003
+Epoch 23/100, Train Loss: 0.030051, Val Loss: 0.025002
+Epoch 24/100, Train Loss: 0.030022, Val Loss: 0.025002
+Epoch 25/100, Train Loss: 0.030012, Val Loss: 0.025002
+Early stopping triggered
+R² score: -0.017910516952476696
+
+
+Training with hidden_layers=[32, 16], learning_rate=0.01, l1_lambda=1e-05
+
+Epoch 1/100, Train Loss: 0.033580, Val Loss: 0.025811
+Epoch 2/100, Train Loss: 0.030114, Val Loss: 0.029877
+Epoch 3/100, Train Loss: 0.029470, Val Loss: 0.034511
+Epoch 4/100, Train Loss: 0.029190, Val Loss: 0.031390
+Epoch 5/100, Train Loss: 0.028929, Val Loss: 0.037643
+Epoch 6/100, Train Loss: 0.028688, Val Loss: 0.037233
+Early stopping triggered
+R² score: -0.6948927164533256
+
+
+Training with hidden_layers=[32, 16], learning_rate=0.01, l1_lambda=0.001
+
+Epoch 1/100, Train Loss: 0.136866, Val Loss: 0.026046
+Epoch 2/100, Train Loss: 0.049155, Val Loss: 0.025175
+Epoch 3/100, Train Loss: 0.039511, Val Loss: 0.025057
+Epoch 4/100, Train Loss: 0.037166, Val Loss: 0.025072
+Epoch 5/100, Train Loss: 0.036719, Val Loss: 0.025093
+Epoch 6/100, Train Loss: 0.036864, Val Loss: 0.025115
+Epoch 7/100, Train Loss: 0.036977, Val Loss: 0.025136
+Epoch 8/100, Train Loss: 0.037064, Val Loss: 0.025154
+Early stopping triggered
+R² score: -0.0006860683035907478
+
+
+Training with hidden_layers=[32, 16], learning_rate=0.001, l1_lambda=1e-05
+
+Epoch 1/100, Train Loss: 0.050481, Val Loss: 0.028247
+Epoch 2/100, Train Loss: 0.032166, Val Loss: 0.026872
+Epoch 3/100, Train Loss: 0.031027, Val Loss: 0.026616
+Epoch 4/100, Train Loss: 0.030412, Val Loss: 0.026716
+Epoch 5/100, Train Loss: 0.029988, Val Loss: 0.027208
+Epoch 6/100, Train Loss: 0.029644, Val Loss: 0.027906
+Epoch 7/100, Train Loss: 0.029328, Val Loss: 0.029052
+Epoch 8/100, Train Loss: 0.029011, Val Loss: 0.034330
+Early stopping triggered
+R² score: -0.4894271782062849
+
+
+Training with hidden_layers=[32, 16], learning_rate=0.001, l1_lambda=0.001
+
+Epoch 1/100, Train Loss: 0.238377, Val Loss: 0.026793
+Epoch 2/100, Train Loss: 0.107774, Val Loss: 0.026527
+Epoch 3/100, Train Loss: 0.084222, Val Loss: 0.025906
+Epoch 4/100, Train Loss: 0.074048, Val Loss: 0.025595
+Epoch 5/100, Train Loss: 0.067673, Val Loss: 0.025449
+Epoch 6/100, Train Loss: 0.061782, Val Loss: 0.025640
+Epoch 7/100, Train Loss: 0.056466, Val Loss: 0.025847
+Epoch 8/100, Train Loss: 0.051132, Val Loss: 0.025628
+Epoch 9/100, Train Loss: 0.045657, Val Loss: 0.026049
+Epoch 10/100, Train Loss: 0.040769, Val Loss: 0.026810
+Early stopping triggered
+R² score: -0.13197073649237812
+
+
+Training with hidden_layers=[16, 8], learning_rate=0.01, l1_lambda=1e-05
+
+Epoch 1/100, Train Loss: 0.037425, Val Loss: 0.025502
+Epoch 2/100, Train Loss: 0.029298, Val Loss: 0.026239
+Epoch 3/100, Train Loss: 0.028881, Val Loss: 0.027019
+Epoch 4/100, Train Loss: 0.028665, Val Loss: 0.028670
+Epoch 5/100, Train Loss: 0.028536, Val Loss: 0.032720
+Epoch 6/100, Train Loss: 0.028567, Val Loss: 0.048645
+Early stopping triggered
+R² score: -1.7344960959637996
+
+
+Training with hidden_layers=[16, 8], learning_rate=0.01, l1_lambda=0.001
+
+Epoch 1/100, Train Loss: 0.092112, Val Loss: 0.025964
+Epoch 2/100, Train Loss: 0.042613, Val Loss: 0.026108
+Epoch 3/100, Train Loss: 0.034538, Val Loss: 0.025192
+Epoch 4/100, Train Loss: 0.032657, Val Loss: 0.025203
+Epoch 5/100, Train Loss: 0.032336, Val Loss: 0.025205
+Epoch 6/100, Train Loss: 0.032331, Val Loss: 0.025209
+Epoch 7/100, Train Loss: 0.032400, Val Loss: 0.025212
+Epoch 8/100, Train Loss: 0.032455, Val Loss: 0.025215
+Early stopping triggered
+R² score: -7.163918541341907e-05
+
+
+Training with hidden_layers=[16, 8], learning_rate=0.001, l1_lambda=1e-05
+
+Epoch 1/100, Train Loss: 0.071821, Val Loss: 0.028908
+Epoch 2/100, Train Loss: 0.030768, Val Loss: 0.027170
+Epoch 3/100, Train Loss: 0.029903, Val Loss: 0.026935
+Epoch 4/100, Train Loss: 0.029478, Val Loss: 0.026886
+Epoch 5/100, Train Loss: 0.029187, Val Loss: 0.027165
+Epoch 6/100, Train Loss: 0.028968, Val Loss: 0.027720
+Epoch 7/100, Train Loss: 0.028769, Val Loss: 0.028270
+Epoch 8/100, Train Loss: 0.028573, Val Loss: 0.029264
+Epoch 9/100, Train Loss: 0.028382, Val Loss: 0.030499
+Early stopping triggered
+R² score: -0.3315666446086476
+
+
+Training with hidden_layers=[16, 8], learning_rate=0.001, l1_lambda=0.001
+
+Epoch 1/100, Train Loss: 0.154460, Val Loss: 0.028022
+Epoch 2/100, Train Loss: 0.081563, Val Loss: 0.026231
+Epoch 3/100, Train Loss: 0.064810, Val Loss: 0.026219
+Epoch 4/100, Train Loss: 0.058560, Val Loss: 0.025911
+Epoch 5/100, Train Loss: 0.054825, Val Loss: 0.025799
+Epoch 6/100, Train Loss: 0.051835, Val Loss: 0.025583
+Epoch 7/100, Train Loss: 0.048975, Val Loss: 0.025840
+Epoch 8/100, Train Loss: 0.046275, Val Loss: 0.026083
+Epoch 9/100, Train Loss: 0.043837, Val Loss: 0.025649
+Epoch 10/100, Train Loss: 0.041434, Val Loss: 0.025912
+Epoch 11/100, Train Loss: 0.039301, Val Loss: 0.025901
+Early stopping triggered
+R² score: -0.04213028945482322
+
