@@ -287,27 +287,6 @@ def get_data(predict=False, horizon = 1):
 
 #################################################################################################################################
 
-# class CB_Dataset(Dataset):
-#     def __init__(self, input, target, info):
-
-#         # Get column names for each dataset
-#         self.concept_col = list(info[info['Cat.Data'] == 'Analyst']['Acronym'].values)
-
-#         # Define dataset in numpy array form
-#         self.input_data = input.drop(self.concept_col + ['permno', 'date'], axis=1).values
-#         self.concept_data = input[self.concept_col].values
-#         self.output_data = target.drop(['permno', 'date'], axis=1).values
-
-#     def __len__(self):
-#         return len(self.input_data)
-    
-#     def __getitem__(self, idx):
-#         x = torch.from_numpy(self.input_data[idx]).type(torch.float)
-#         c = torch.from_numpy(self.concept_data[idx]).type(torch.float)
-#         y = torch.from_numpy(self.output_data[idx]).type(torch.float)
-
-#         return x, c, y
-
 class CB_Dataset(Dataset):
     def __init__(self, input, target):
 
