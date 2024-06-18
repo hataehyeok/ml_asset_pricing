@@ -1,6 +1,8 @@
 # Test
 
-## Lists
+## Results of NN
+
+### Lists
 
 - nn with nothing
 - nn with batchnormalization
@@ -9,7 +11,7 @@
 - nn with batchN, He init, b4000, dropout
 - nn using trainset only
 
-## Results
+### Results
 
 Training with hidden_layers=[128, 64, 32], learning_rate=0.01, l1_lambda=0.001
 
@@ -19,7 +21,6 @@ Training with hidden_layers=[128, 64, 32], learning_rate=0.01, l1_lambda=0.001
 - R² score: -0.012853528406173487
 - R² score: -0.001679358859759894
 - R² score: -9.637879330393062e-06
-
 
 Training with hidden_layers=[32, 16, 8], learning_rate=0.01, l1_lambda=0.001
 
@@ -66,3 +67,109 @@ Training with hidden_layers=[16, 8], learning_rate=0.01, l1_lambda=0.001
 - R² score: -0.01846136925646169
 - R² score: -0.012713475562173837
 - R² score: -2.5241833423006454e-05
+
+## Results of RF
+
+### Test
+
+## Test Results
+
+```py
+params = {
+    'n_estimators': 300,
+    'max_depth': 4,
+    'max_features': 20,
+    'random_state': 0,
+    'n_jobs': 8,
+    'verbose': 2
+}
+```
+Model Test R2_score: 0.0028909621154153964
+
+
+```py
+params = {
+    'n_estimators': 300,
+    'max_depth': 4,
+    'max_features': 10,
+    'random_state': 0,
+    'n_jobs': 8,
+    'verbose': 2
+}
+```
+Model Test R2_score: 0.003866744793660004
+
+
+```py
+params = {
+    'n_estimators': 300,
+    'max_depth': 4,
+    'max_features': 5,
+    'random_state': 0,
+    'n_jobs': 8,
+    'verbose': 2
+}
+```
+Model Test R2_score: 0.003244989035436019
+
+
+```py
+params = {
+    'n_estimators': 300,
+    'max_depth': 5,
+    'max_features': 10,
+    'random_state': 0,
+    'n_jobs': 8,
+    'verbose': 2
+}
+```
+Model Test R2_score: 0.00614681710087428
+
+
+```py
+params = {
+    'n_estimators': 300,
+    'max_depth': 6,
+    'max_features': 10,
+    'random_state': 0,
+    'n_jobs': 8,
+    'verbose': 2
+}
+```
+Model Test R2_score: 0.0033831304286952024
+
+
+```py
+params = {
+    'n_estimators': 300,
+    'max_depth': 6,
+    'max_features': 20,
+    'random_state': 0,
+    'n_jobs': 8,
+    'verbose': 2
+}
+```
+Model Test R2_score: 0.0019076460802596173
+
+```py
+params = {
+    'n_estimators': 300,
+    'max_depth': 5,
+    'max_features': 3,
+    'random_state': 0,
+    'n_jobs': 8,
+    'verbose': 2
+}
+```
+ 3 -> Model Test R2_score: 0.004345926651043053
+
+ 5 -> Model Test R2_score: 0.004315125920082319
+
+10 -> Model Test R2_score: 0.00614681710087428
+
+20 -> Model Test R2_score: 0.00216983412258831
+
+30 -> Model Test R2_score: 0.003405791348527698
+
+50 -> Model Test R2_score: 0.0015472387993560321
+
